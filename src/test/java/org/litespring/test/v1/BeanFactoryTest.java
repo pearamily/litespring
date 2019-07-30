@@ -12,7 +12,7 @@ public class BeanFactoryTest {
     @Test
     public  void  testGetBean() {
         BeanFactory factory = new DefaultBeanFactory("petstore-v1.xml");
-        BeanDefination bd = factory.getBeanDefination("petstore");
+        BeanDefination bd = factory.getBeanDefination("petStore");
 
 
         assertEquals("org.litespring.service.v1.PetStoreService", bd.getBeanClassName());
