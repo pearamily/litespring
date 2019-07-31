@@ -1,14 +1,13 @@
 package org.litespring.beans.factory.xml;
 
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.factory.BeanDefinationStoreException;
-import org.litespring.beans.factory.support.GenericBeanDefination;
-import org.litespring.util.ClassUtils;
 import org.litespring.beans.factory.support.BeanDefinationRegistry;
+import org.litespring.beans.factory.support.GenericBeanDefination;
+import org.litespring.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,11 +24,11 @@ public class XmlBeanFactoryReader {
     }
 
 
-    public void loadBeanDefination(String configFile) {
+    public void loadBeanDefination(Resource resource) {
         InputStream is = null;
         try {
-            ClassLoader c1 = ClassUtils.getDefaultClassLoader();
-            is = c1.getResourceAsStream(configFile);
+
+            is  = resource.getInputStream();
             SAXReader reader = new SAXReader();
             Document doc = reader.read(is);
 
@@ -42,7 +41,7 @@ public class XmlBeanFactoryReader {
                 BeanDefination bd = new GenericBeanDefination(id, beanClassName);
                 registry.registerBeanDefination(id,bd);
             }
-        } catch (DocumentException e) {
+        } catch (Exception e) {
             throw new BeanDefinationStoreException("IOException is created  parseing XML document", e);
 
         } finally {
