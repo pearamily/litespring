@@ -6,21 +6,14 @@ import org.litespring.context.ApplicationContext;
 import org.litespring.core.io.FileSystemResource;
 import org.litespring.core.io.Resource;
 
-public class FileSystemXmlApplicationContext implements ApplicationContext {
-    private DefaultBeanFactory factory = null;
+public class FileSystemXmlApplicationContext extends AbstractApplicationContext {
 
     public FileSystemXmlApplicationContext(String configFile) {
-        factory = new DefaultBeanFactory();
-
-        XmlBeanFactoryReader reader = new XmlBeanFactoryReader(factory);
-        Resource resource = new FileSystemResource(configFile);
-
-        reader.loadBeanDefination(resource);
-
+        super(configFile);
     }
 
-    public Object getBean(String beanId) {
-        return factory.getBean(beanId);
+    @Override
+    protected Resource getResourceByPath(String path) {
+        return new FileSystemResource(path);
     }
-
 }
