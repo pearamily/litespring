@@ -16,6 +16,7 @@ import java.util.Iterator;
 public class XmlBeanFactoryReader {
     public static final String ID_ATTRIBUTE = "id";
     public static final String CLASS_ATTRIBUTE = "class";
+    public static final String SCOPE_ATTRIBUTE = "scope";
 
     BeanDefinationRegistry registry;
 
@@ -39,6 +40,9 @@ public class XmlBeanFactoryReader {
                 String id = ele.attributeValue(ID_ATTRIBUTE);
                 String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
                 BeanDefination bd = new GenericBeanDefination(id, beanClassName);
+                if (ele.attributeValue(SCOPE_ATTRIBUTE) != null) {
+                    bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
+                }
                 registry.registerBeanDefination(id,bd);
             }
         } catch (Exception e) {

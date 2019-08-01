@@ -3,13 +3,13 @@ package org.litespring.beans.factory.support;
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.config.ConfigurableBeanFactory;
 import org.litespring.beans.factory.BeanCreatationException;
-import org.litespring.beans.factory.BeanFactory;
 import org.litespring.util.ClassUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinationRegistry {
+public class DefaultBeanFactory extends DefaultSingletonBeanRegistery
+        implements ConfigurableBeanFactory, BeanDefinationRegistry {
 
     ClassLoader beanClassLoader;
 
@@ -35,6 +35,20 @@ public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinati
         if (bd == null) {
             throw new BeanCreatationException("BeanDefination dees not exist!");
         }
+        if (bd.isSingleton()) {
+            Object bean = this.getSingleton(beanId);
+            if (bean == null) {
+                bean = createBean(bd);
+                this.registerSingleton(beanId,bean);
+            }
+            return bean;
+        }
+        return createBean(bd);
+
+    }
+
+    private Object createBean(BeanDefination bd) {
+
         ClassLoader c1 = this.getClassLoader();
         String beanClassName = bd.getBeanClassName();
 
@@ -45,7 +59,6 @@ public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinati
         } catch (Exception e) {
             throw new BeanCreatationException("craete bean for" + beanClassName + " failed", e);
         }
-
     }
 
     public void setBeanClassLoader(ClassLoader beanClassLoader) {
@@ -56,4 +69,5 @@ public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinati
     public ClassLoader getClassLoader() {
         return (this.beanClassLoader != null)?this.beanClassLoader:ClassUtils.getDefaultClassLoader();
     }
+
 }
