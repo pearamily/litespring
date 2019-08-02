@@ -1,4 +1,4 @@
 package org.litespring.dao.v2;
 
-public class AccoutDao {
+public class AccountDao {
 }
