@@ -21,7 +21,7 @@ public class BeanDefinationTestV2 {
 
         BeanDefination bd = factory.getBeanDefination("petStore");
         List<PropertyValue> pvs = bd.getPropertyValues();
-        Assert.assertTrue(pvs.size() == 2);// test  xml file has only 2 dom nodes
+        Assert.assertTrue(pvs.size() == 5);// test  xml file has only 2 dom nodes
 
         {
             PropertyValue pv = this.getPropertyValue("accoutnDao", pvs);

@@ -2,6 +2,7 @@ package org.litespring.beans.factory.support;
 
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.PropertyValue;
+import org.litespring.beans.SimpleTypeConverter;
 import org.litespring.beans.config.ConfigurableBeanFactory;
 import org.litespring.beans.factory.BeanCreatationException;
 import org.litespring.util.ClassUtils;
@@ -73,6 +74,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistery
         }
         BeanDefinationValueResolver valueResolver = new BeanDefinationValueResolver(this);
         //parse object
+        SimpleTypeConverter converter = new SimpleTypeConverter();
         try {
             for (PropertyValue pv :
                     pvs) {
@@ -90,7 +92,9 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistery
                 for (PropertyDescriptor pd :
                         pds) {
                     if (pd.getName().equals(propertyName)) {
-                        pd.getWriteMethod().invoke(bean, resolvedValue);
+                        Object convertedValue = converter.convertIfNecessary(resolvedValue, pd.getPropertyType());
+                        //impl the converter and add it in petStoreService Object
+                        pd.getWriteMethod().invoke(bean, convertedValue);
                         //this write method refers to his set method and set the resolvedValue(accoutDao or itemDao) into bean(petStore) using refect way indeed
                         break;
                     }
