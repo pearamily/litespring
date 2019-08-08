@@ -7,6 +7,17 @@ public class PetStoreService {
     private ItemDao itemDao;
     private AccountDao accountDao;
     private String owner;
+    private int version;
+    private boolean switched;
+
+
+    public boolean isSwitched() {
+        return switched;
+    }
+
+    public void setSwitched(boolean switched) {
+        this.switched = switched;
+    }
 
     public AccountDao getAccountDao() {
         return accountDao;
@@ -31,4 +42,13 @@ public class PetStoreService {
     public void setOwner(String owner) {
         this.owner = owner;
     }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
 }

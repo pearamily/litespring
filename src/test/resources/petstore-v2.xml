@@ -9,6 +9,8 @@
         <property name="accountDao" ref="accountDao" />
         <property name="itemDao" ref="itemDao" />
         <property name="owner" value="liuxin" />
+        <property name="version" value="2" />
+        <property name="switched" value="yes" />
     </bean>
 
     <bean id="accountDao"
