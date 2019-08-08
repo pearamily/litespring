@@ -10,14 +10,14 @@ import static org.junit.Assert.fail;
 
 public class TypeConverterTest {
     @Test
-    public void typeConverterStringToInt() {
+    public void typeConverterStringToInt() throws TypeMismatchException {
         TypeConverter converter = new SimpleTypeConverter();
 
         Integer i = converter.convertIfNecessary("3", Integer.class);
         Assert.assertEquals(3, i.intValue());
 
         try {
-            convert.convertIfNecessary("3.1", Integer.class);
+            converter.convertIfNecessary("3.1", Integer.class);
         } catch (TypeMismatchException e) {
             return;
         }
@@ -27,7 +27,7 @@ public class TypeConverterTest {
     }
 
     @Test
-    public  void  testConvertStringToBoolean() {
+    public  void  testConvertStringToBoolean() throws TypeMismatchException {
         TypeConverter converter = new SimpleTypeConverter();
         Boolean b = converter.convertIfNecessary("true", Boolean.class);
 
