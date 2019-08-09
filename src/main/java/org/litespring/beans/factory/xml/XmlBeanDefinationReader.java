@@ -6,6 +6,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.litespring.beans.BeanDefination;
+import org.litespring.beans.ConstructorArgument;
 import org.litespring.beans.PropertyValue;
 import org.litespring.beans.factory.BeanDefinationStoreException;
 import org.litespring.beans.factory.config.RuntimeBeanReference;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-public class XmlBeanFactoryReader {
+public class XmlBeanDefinationReader {
     public static final String ID_ATTRIBUTE = "id";
     public static final String CLASS_ATTRIBUTE = "class";
     public static final String SCOPE_ATTRIBUTE = "scope";
@@ -29,11 +30,15 @@ public class XmlBeanFactoryReader {
     public static final String NAME_ATTRIBUTE = "name";
 
 
+    public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
+    public static final String TYPE_ATTRIBUTE = "type";
+
+
     protected final Log logger = LogFactory.getLog(getClass());
 
     BeanDefinationRegistry registry;
 
-    public XmlBeanFactoryReader(BeanDefinationRegistry registry) {
+    public XmlBeanDefinationReader(BeanDefinationRegistry registry) {
         this.registry = registry;
     }
 
@@ -56,6 +61,7 @@ public class XmlBeanFactoryReader {
                 if (ele.attributeValue(SCOPE_ATTRIBUTE) != null) {
                     bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
                 }
+                parseConstructorArgElements(ele, bd);
                 parsePropertyElement(ele, bd);
                 this.registry.registerBeanDefination(id, bd);
             }
@@ -74,8 +80,35 @@ public class XmlBeanFactoryReader {
         }
     }
 
+    private void parseConstructorArgElements(Element beanEle, BeanDefination bd) {
+        Iterator iter = beanEle.elementIterator(CONSTRUCTOR_ARG_ELEMENT);
+        while (iter.hasNext()) {
+            Element ele = (Element) iter.next();
+            parseConstructorArgElement(ele, bd);
+        }
+    }
 
-    //TODO add 2 new methods here
+    private void parseConstructorArgElement(Element ele, BeanDefination bd) {
+        String typeAttr = ele.attributeValue(TYPE_ATTRIBUTE);
+        String nameAttr = ele.attributeValue(NAME_ATTRIBUTE);
+
+        Object value = paresPropertyValue(ele, bd, null);
+        ConstructorArgument.ValueHolder valueHolder = new ConstructorArgument.ValueHolder(value);//store  runtimebeanreference of stringvalue
+
+        if (StringUtils.hasLength(typeAttr)) {
+            valueHolder.setType(typeAttr);
+
+        }
+        if (StringUtils.hasLength(nameAttr)) {
+            valueHolder.setName(nameAttr);
+
+        }
+        bd.getConstructorArgument().addArgumentValue(valueHolder);
+
+
+    }
+
+
     public Object paresPropertyValue(Element ele, BeanDefination bd, String propertyName) {
         String eleName = (propertyName != null) ? "<property> element for property '" + propertyName + "'" : "<constructor-arg> element";
 

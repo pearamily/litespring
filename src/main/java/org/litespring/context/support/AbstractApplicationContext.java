@@ -1,22 +1,21 @@
 package org.litespring.context.support;
 
-import org.litespring.beans.factory.support.DefaultBeanFactory;
-import org.litespring.beans.factory.xml.XmlBeanFactoryReader;
+import org.litespring.beans.factory.support.DefaultBeanfactory;
+import org.litespring.beans.factory.xml.XmlBeanDefinationReader;
 import org.litespring.context.ApplicationContext;
-import org.litespring.core.io.ClassPathResource;
 import org.litespring.core.io.Resource;
 import org.litespring.util.ClassUtils;
 
 public abstract class AbstractApplicationContext implements ApplicationContext {
 
-    private DefaultBeanFactory factory = null;
+    private DefaultBeanfactory factory = null;
     private ClassLoader beanClassLoader;
 
     //now lets deal with classloader
     public AbstractApplicationContext(String configFile) {
-        factory = new DefaultBeanFactory();
+        factory = new DefaultBeanfactory();
 
-        XmlBeanFactoryReader reader = new XmlBeanFactoryReader(factory);
+        XmlBeanDefinationReader reader = new XmlBeanDefinationReader(factory);
 
         Resource resource = this.getResourceByPath(configFile);
 

@@ -2,12 +2,13 @@ package org.litespring.beans.factory.support;
 
 import org.litespring.beans.factory.config.RuntimeBeanReference;
 import org.litespring.beans.factory.config.TypeStringValue;
+import org.litespring.beans.factory.BeanFactory;
 
 public class BeanDefinationValueResolver {
 
-    private final DefaultBeanFactory beanFactory;
+    private final BeanFactory beanFactory;
 
-    public BeanDefinationValueResolver(DefaultBeanFactory factory) {
+    public BeanDefinationValueResolver(BeanFactory factory) {
         this.beanFactory = factory;
     }
 

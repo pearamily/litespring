@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.PropertyValue;
 import org.litespring.beans.factory.config.RuntimeBeanReference;
-import org.litespring.beans.factory.support.DefaultBeanFactory;
-import org.litespring.beans.factory.xml.XmlBeanFactoryReader;
+import org.litespring.beans.factory.support.DefaultBeanfactory;
+import org.litespring.beans.factory.xml.XmlBeanDefinationReader;
 import org.litespring.core.io.ClassPathResource;
 
 import java.util.List;
@@ -15,8 +15,8 @@ public class BeanDefinationTestV2 {
 
     @Test
     public void testGetBeanDefinatino() {
-        DefaultBeanFactory factory = new DefaultBeanFactory();
-        XmlBeanFactoryReader reader = new XmlBeanFactoryReader(factory);
+        DefaultBeanfactory factory = new DefaultBeanfactory();
+        XmlBeanDefinationReader reader = new XmlBeanDefinationReader(factory);
         reader.loadBeanDefination(new ClassPathResource("petstore-v2.xml"));
 
         BeanDefination bd = factory.getBeanDefination("petStore");

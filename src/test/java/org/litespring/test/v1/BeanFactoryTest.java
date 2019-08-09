@@ -6,22 +6,21 @@ import org.junit.Test;
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.factory.BeanCreatationException;
 import org.litespring.beans.factory.BeanDefinationStoreException;
-import org.litespring.beans.factory.BeanFactory;
-import org.litespring.beans.factory.support.DefaultBeanFactory;
-import org.litespring.beans.factory.xml.XmlBeanFactoryReader;
+import org.litespring.beans.factory.support.DefaultBeanfactory;
+import org.litespring.beans.factory.xml.XmlBeanDefinationReader;
 import org.litespring.core.io.ClassPathResource;
 import org.litespring.service.v1.PetStoreService;
 
 import static org.junit.Assert.*;
 
 public class BeanFactoryTest {
-    DefaultBeanFactory factory = null;
-    XmlBeanFactoryReader reader = null;
+    DefaultBeanfactory factory = null;
+    XmlBeanDefinationReader reader = null;
 
     @Before
     public void prepareFactory() {
-        factory = new DefaultBeanFactory();
-        reader = new XmlBeanFactoryReader(factory);
+        factory = new DefaultBeanfactory();
+        reader = new XmlBeanDefinationReader(factory);
 
 
     }

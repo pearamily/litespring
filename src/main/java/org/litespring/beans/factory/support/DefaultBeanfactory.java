@@ -8,15 +8,13 @@ import org.litespring.beans.factory.BeanCreatationException;
 import org.litespring.util.ClassUtils;
 
 import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultBeanFactory extends DefaultSingletonBeanRegistery
+public class DefaultBeanfactory extends DefaultSingletonBeanRegistery
         implements ConfigurableBeanFactory, BeanDefinationRegistry {
 
     ClassLoader beanClassLoader;
@@ -25,7 +23,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistery
     private final Map<String, BeanDefination> beanDefinationMap = new ConcurrentHashMap<String, BeanDefination>();
 
 
-    public DefaultBeanFactory() {
+    public DefaultBeanfactory() {
 
     }
 
@@ -108,15 +106,20 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistery
     }
 
     private Object instantiateBean(BeanDefination bd) {
-        ClassLoader c1 = this.getClassLoader();
-        String beanClassName = bd.getBeanClassName();
+        if (bd.hasConstructorArgumentValues()) {
+            ConstructorResolver resolver = new ConstructorResolver(this);
+            return resolver.autowireConstructor(bd);
+        } else {
+            ClassLoader c1 = this.getClassLoader();
+            String beanClassName = bd.getBeanClassName();
 
-        try {
-            Class<?> clz = c1.loadClass(beanClassName);
-            //at this place,we default think there is a default constructor of a type
-            return clz.newInstance();
-        } catch (Exception e) {
-            throw new BeanCreatationException("craete bean for" + beanClassName + " failed", e);
+            try {
+                Class<?> clz = c1.loadClass(beanClassName);
+                //at this place,we default think there is a default constructor of a type
+                return clz.newInstance();
+            } catch (Exception e) {
+                throw new BeanCreatationException("craete bean for" + beanClassName + " failed", e);
+            }
         }
     }
 

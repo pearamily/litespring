@@ -20,4 +20,11 @@ public interface BeanDefination {
 
     public List<PropertyValue> getPropertyValues();
 
+    public  ConstructorArgument getConstructorArtgument();
+
+     public  String getId();
+
+    ConstructorArgument getConstructorArgument();
+
+    public boolean hasConstructorArgumentValues();
 }
