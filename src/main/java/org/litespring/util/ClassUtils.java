@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ClassUtils {
+    private static final char PACKAGE_SEPARATOR = '.';
+    private static final char CLASS_SEPARATOR = '/';
+
+
+
     private static final Map<Class<?>, Class<?>> wrapperToPrimitiveTypeMap = new HashMap<Class<?>, Class<?>>(8);
     private static final Map<Class<?>, Class<?>> primitiveTypeToWrapperMap = new HashMap<Class<?>, Class<?>>(8);
 
@@ -77,5 +82,17 @@ public abstract class ClassUtils {
         }
         return false;
 
+    }
+
+    public static String convertClassNameToResourcePath(String className) {
+
+        Assert.notNull(className, "class name must not be null");
+        return className.replace(PACKAGE_SEPARATOR,CLASS_SEPARATOR );
+    }
+
+    public static String convertResourcePathToClassName(String resourcePath) {
+
+        Assert.notNull(resourcePath, "resourcePath  must not be null");
+        return resourcePath.replace(CLASS_SEPARATOR, PACKAGE_SEPARATOR);
     }
 }
