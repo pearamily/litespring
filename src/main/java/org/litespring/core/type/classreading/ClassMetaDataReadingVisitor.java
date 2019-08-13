@@ -1,11 +1,12 @@
 package org.litespring.core.type.classreading;
 
+import org.litespring.core.type.ClassMetadata;
 import org.litespring.util.ClassUtils;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.Opcodes;
 import org.springframework.asm.SpringAsmInfo;
 
-public class ClassMetaDataReadingVisitor extends ClassVisitor  {
+public class ClassMetaDataReadingVisitor extends ClassVisitor implements ClassMetadata {
 
     private String className;
     private boolean isInterface;
@@ -70,5 +71,7 @@ public class ClassMetaDataReadingVisitor extends ClassVisitor  {
         return  this.className;
     }
 
-
+    public String[] getInterfaceNames() {
+        return this.interfaces;
+    }
 }

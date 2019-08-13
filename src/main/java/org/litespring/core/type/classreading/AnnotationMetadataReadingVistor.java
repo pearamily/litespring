@@ -3,6 +3,7 @@ package org.litespring.core.type.classreading;
 import com.sun.tools.classfile.AnnotationDefault_attribute;
 import jdk.internal.org.objectweb.asm.Type;
 import org.litespring.core.annotation.AnnotationAttributes;
+import org.litespring.core.type.AnnotationMetadata;
 import org.springframework.asm.AnnotationVisitor;
 
 import java.util.LinkedHashMap;
@@ -10,7 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AnnotationMetadataReadingVistor extends ClassMetaDataReadingVisitor {
+public  class AnnotationMetadataReadingVistor extends ClassMetaDataReadingVisitor implements AnnotationMetadata {
         // overide vistor method of ClassMetaDataReadingVisitor
 
     private final Set<String> annotationSet = new LinkedHashSet<String>(4);
@@ -39,8 +40,11 @@ public class AnnotationMetadataReadingVistor extends ClassMetaDataReadingVisitor
         return this.annotationSet.contains(annotationType);
     }
 
-    public AnnotationAttributes getAnnotationAttributes(String annotationType) {
+    public AnnotationAttributes getAnnotationAtrributes(String annotationType) {
         return this.attributesMap.get(annotationType);
     }
+
+
+
 }
 
