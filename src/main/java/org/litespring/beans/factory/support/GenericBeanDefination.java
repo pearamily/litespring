@@ -29,6 +29,12 @@ public class GenericBeanDefination implements BeanDefination {
 
     }
 
+    public GenericBeanDefination() {
+
+    }
+
+
+
 
     public String getBeanClassName() {
         return this.className;
@@ -73,5 +79,13 @@ public class GenericBeanDefination implements BeanDefination {
         this.singleton = SCOPE_SINGLETON.equals(scope) || SCOPE_DEFAULT.equals(scope);
         this.prototype = SCOPE_PROTOTYPE.equals(scope);
 
+    }
+
+    public void setBeanClassName(String className) {
+        this.className = className;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

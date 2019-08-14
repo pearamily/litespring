@@ -1,5 +1,7 @@
 package org.litespring.util;
 
+import java.util.*;
+
 public abstract class StringUtils {
     public static boolean hasLength(String str) {
         return hasLength((CharSequence) str);
@@ -38,4 +40,37 @@ public abstract class StringUtils {
         }
         return sb.toString();
     }
+
+    public static String[] tokenizeToStringArray(String str, String delimeters) {
+        return tokenizeToStringArray(str, delimeters, true, true);
+    }
+
+    public static String[] tokenizeToStringArray(String str, String delimeters, boolean trimTokens, boolean ignoreEmptyToken) {
+        if (str ==null) {
+            return null;
+        }
+
+        StringTokenizer st = new StringTokenizer(str, delimeters);
+        List<String> tokens
+                = new ArrayList<String>();
+        while (st.hasMoreTokens()) {
+            String token = st.nextToken();
+            if (trimTokens) {
+                 token = token.trim();
+            }
+            if (!ignoreEmptyToken || token.length() > 0) {
+                tokens.add(token);
+            }
+        }
+        return toStringArray(tokens);
+    }
+
+    private static String[] toStringArray(Collection<String> collection) {
+        if (collection == null) {
+            return null;
+        }
+        return collection.toArray(new String[collection.size()]);
+
+    }
+
 }

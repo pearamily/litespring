@@ -18,7 +18,7 @@ public class SimpleMetadataReader implements MetadataReader {
 
 
 
-    public SimpleMetadataReader(ClassPathResource resource) throws IOException {
+    public SimpleMetadataReader(Resource resource) throws IOException {
         InputStream is = new BufferedInputStream(resource.getInputStream());
         ClassReader classReader;
 
