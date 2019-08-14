@@ -5,6 +5,7 @@ import org.litespring.beans.PropertyValue;
 import org.litespring.beans.SimpleTypeConverter;
 import org.litespring.beans.config.ConfigurableBeanFactory;
 import org.litespring.beans.factory.BeanCreatationException;
+import org.litespring.beans.factory.config.DependencyDescriptor;
 import org.litespring.util.ClassUtils;
 
 import java.beans.BeanInfo;
@@ -132,4 +133,33 @@ public class DefaultBeanfactory extends DefaultSingletonBeanRegistery
         return (this.beanClassLoader != null) ? this.beanClassLoader : ClassUtils.getDefaultClassLoader();
     }
 
+    public Object resolveDependency(DependencyDescriptor descriptor) {
+        Class<?> typeToMatch = descriptor.getDependencyType();
+
+        for (BeanDefination bd :
+                this.beanDefinationMap.values()) {
+            resolveBeanClass(bd);
+            Class<?> beanClass  = bd.getBeanClass();
+            if (typeToMatch.isAssignableFrom(beanClass)) {
+                return this.getBean(bd.getId());
+            }
+
+        }
+        return null;
+    }
+
+    public void resolveBeanClass(BeanDefination bd) {
+
+        if (bd.hasBeanClasss()) {
+            return;
+        } else {
+
+            try {
+                bd.resolveBeanClass(this.getClassLoader());
+            } catch (Exception e) {
+                throw new RuntimeException("can't load class:" + bd.getBeanClassName());
+            }
+        }
+
+    }
 }

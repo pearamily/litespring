@@ -11,7 +11,8 @@ public class GenericBeanDefination implements BeanDefination {
 
 
     private String id;
-    private String className;
+    private String beanClassName;
+    private Class<?> beanClass;
 
     private boolean singleton = true;
     private boolean prototype = false;
@@ -25,7 +26,7 @@ public class GenericBeanDefination implements BeanDefination {
 
     public GenericBeanDefination(String id, String beanClassName) {
         this.id = id;
-        this.className = beanClassName;
+        this.beanClassName = beanClassName;
 
     }
 
@@ -37,7 +38,7 @@ public class GenericBeanDefination implements BeanDefination {
 
 
     public String getBeanClassName() {
-        return this.className;
+        return this.beanClassName;
     }
 
     public List<PropertyValue> getPropertyValues() {
@@ -61,6 +62,10 @@ public class GenericBeanDefination implements BeanDefination {
         return !this.constructorArgument.isEmpty();
     }
 
+    public boolean hasBeanClasss() {
+        return this.beanClass != null;
+    }
+
 
     public boolean isSingleton() {
         return this.singleton;
@@ -82,10 +87,32 @@ public class GenericBeanDefination implements BeanDefination {
     }
 
     public void setBeanClassName(String className) {
-        this.className = className;
+        this.beanClassName = className;
     }
 
     public void setId(String id) {
         this.id = id;
     }
+
+    public  Class<?> resolveBeanClass (ClassLoader classLoader) throws  ClassNotFoundException {
+        String className = getBeanClassName();
+        if (className == null) {
+            return null;
+        }
+        Class<?> resolvedClass = classLoader.loadClass(className);
+        this.beanClass = resolvedClass;
+        return resolvedClass;
+    }
+
+    public Class<?> getBeanClass() throws  IllegalStateException {
+
+        if (this.beanClass == null) {
+
+            throw new IllegalStateException("Bean class name [" + this.getBeanClassName() + "] has not been resolved into an actual Class");
+
+        }
+        return this
+                .beanClass;
+    }
+
 }

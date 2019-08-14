@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.factory.support.DefaultBeanfactory;
 import org.litespring.beans.factory.xml.XmlBeanDefinationReader;
-import org.litespring.context.annotation.ClassPathBeanDefinationScanner;
 import org.litespring.context.annotation.ScanneredGenericBeanDefination;
 import org.litespring.core.annotation.AnnotationAttributes;
 import org.litespring.core.io.ClassPathResource;
