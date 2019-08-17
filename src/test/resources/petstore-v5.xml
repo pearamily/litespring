@@ -10,12 +10,18 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/aop ">
 
-    <context:component-scan base-package="org.litespring.service.v4,org.litespring.dao.v4">
+   <context:component-scan base-package="org.litespring.service.v5,org.litespring.dao.v5">
+   </context:component-scan>
 
+   <bean id="tx" class="org.litespring.tx.TransactionManager"/>
 
-    </context:component-scan>
-
-
+   <aop:config>
+      <aop:aspect ref="tx"/>
+      <aop:appoint id="placeOrder" expression ="execution(* org.litespring.service.v5.*.placeOrder(..))"/>
+      <aop:before pointcut-ref="placeOrder" method="start"/>
+      <aop:returning pointcut-ref="placeOrder" method="commit"/>
+      <aop:after-throwing pointcut-ref="placeOrder" method="rollback"/>
+   </aop:config>
 
 
 </beans>
