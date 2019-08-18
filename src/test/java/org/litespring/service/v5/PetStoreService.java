@@ -22,8 +22,12 @@ public class PetStoreService {
     }
 
     public void placeOrder() {
-        System.out.println("place holder");
-        MessageTracker.addMsg("place holder");
+        System.out.println("place order");
+        MessageTracker.addMsg("place order");
 
+    }
+
+    public void placeOrderWithException() {
+        throw new NullPointerException();
     }
 }
