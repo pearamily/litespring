@@ -16,11 +16,19 @@
    <bean id="tx" class="org.litespring.tx.TransactionManager"/>
 
    <aop:config>
-      <aop:aspect ref="tx"/>
-      <aop:appoint id="placeOrder" expression ="execution(* org.litespring.service.v5.*.placeOrder(..))"/>
-      <aop:before pointcut-ref="placeOrder" method="start"/>
-      <aop:returning pointcut-ref="placeOrder" method="commit"/>
-      <aop:after-throwing pointcut-ref="placeOrder" method="rollback"/>
+
+      <aop:aspect ref="tx">
+
+         <aop:pointcut id="placeOrder"
+                       expression="execution(* org.litespring.service.v5.*.placeOrder(..))" />
+
+         <aop:before pointcut-ref="placeOrder" method="start" />
+         <aop:after-returning pointcut-ref="placeOrder"	method="commit" />
+         <aop:after-throwing pointcut-ref="placeOrder" method = "rollback"/>
+
+
+      </aop:aspect>
+
    </aop:config>
 
 
