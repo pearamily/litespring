@@ -37,6 +37,10 @@ public class ConstructorArgument {
 
     }
 
+    public void addArgumentValue(Object value) {
+        this.argumentValues.add(new ValueHolder(value));
+    }
+
     public static class ValueHolder {
         //inner class indicated high-cohensive profile
         private Object value;

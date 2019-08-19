@@ -18,6 +18,17 @@ public class GenericBeanDefination implements BeanDefination {
     private boolean prototype = false;
     private String scope = SCOPE_DEFAULT;
 
+    private boolean isSynthetic;
+
+    public GenericBeanDefination(Class<?> clz) {
+        this.beanClass = clz;
+        this.beanClassName = clz.getName();
+    }
+
+    public void setSynthetic(boolean synthetic) {
+        isSynthetic = synthetic;
+    }
+
     List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
     private ConstructorArgument constructorArgument = new ConstructorArgument();
 
@@ -102,6 +113,10 @@ public class GenericBeanDefination implements BeanDefination {
         Class<?> resolvedClass = classLoader.loadClass(className);
         this.beanClass = resolvedClass;
         return resolvedClass;
+    }
+
+    public boolean isSynthetic() {
+        return this.isSynthetic;
     }
 
     public Class<?> getBeanClass() throws  IllegalStateException {

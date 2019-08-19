@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.litespring.aop.config.ConfigBeanDefinitionParser;
 import org.litespring.beans.BeanDefination;
 import org.litespring.beans.ConstructorArgument;
 import org.litespring.beans.PropertyValue;
@@ -15,7 +16,6 @@ import org.litespring.beans.factory.support.BeanDefinationRegistry;
 import org.litespring.beans.factory.support.GenericBeanDefination;
 import org.litespring.context.annotation.ClassPathBeanDefinationScanner;
 import org.litespring.core.io.Resource;
-import org.litespring.util.ClassUtils;
 import org.litespring.util.StringUtils;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class XmlBeanDefinationReader {
 
     public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
     public static final String TYPE_ATTRIBUTE = "type";
-
+    public static final String AOP_NAMESPACE_URL = "http://www.springframework.org/schema/aop";
 
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -69,6 +69,8 @@ public class XmlBeanDefinationReader {
                     parseDefaultElement(ele);//the normal bean componet
                 } else if (this.isContextNamespace(namespaceUrl)) {
                     parseComponentElement(ele);//like <context:component-scan>
+                } else if (this.isAOPNamespace(namespaceUrl)) {
+                    parseAOPElement(ele);//<aop:
                 }
 
 
@@ -86,6 +88,15 @@ public class XmlBeanDefinationReader {
             }
 
         }
+    }
+
+    private void parseAOPElement(Element ele) {
+        ConfigBeanDefinitionParser parser = new ConfigBeanDefinitionParser();
+        parser.parse(ele, this.registry);
+    }
+
+    private boolean isAOPNamespace(String namespaceUrl) {
+        return (!StringUtils.hasLength(namespaceUrl) || AOP_NAMESPACE_URL.equals(namespaceUrl));
     }
 
     private void parseComponentElement(Element ele) {
